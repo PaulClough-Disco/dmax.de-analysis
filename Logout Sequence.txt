@@ -1,16 +1,15 @@
+title Logout Sequence
 actor User
 boundary Client
-
-title Logout Sequence	
 Client ->Client: existLogged_in(boolean)
  alt Logged_in=False
- note over User, Client: UX:Anonymous User \nUX:Login
+  note over User, Client: UX:Anonymous User \nUX:Login
  else Logged_in=True
- Client ->Client: display(logout)
- opt 
- User->Client: click(logout)
- Client ->Client: delete(session)
- Client ->User: display(logged_out)
+  Client ->Client: display(logout)
+  opt 
+  User->Client: click(logout)
+  Client ->Client: delete(session)
+  Client ->User: display(logged_out)
   note over User, Client: UX:Anonymous User \nUX:Login
   end
 end

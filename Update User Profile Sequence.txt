@@ -1,3 +1,4 @@
+title Update User Profile
 actor User
 boundary Client
 control Sonic

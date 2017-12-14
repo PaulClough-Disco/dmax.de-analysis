@@ -4,28 +4,25 @@ boundary Client #f4c842
 control Newsletter2Go #FF882A
 control Sonic #orange
 
-
 ==Post Sonic== #orange
 note over User, Sonic: UX: Registration
-
 opt UX: Newsletter Subscription
-User->Client: input(emailPreferences)
-Client ->Sonic: patchUserMe(newsletterPreference)
-activate Sonic #orange
-Client->Newsletter2Go: subscribe(emailAddress)
-activate Newsletter2Go #FF882A
-Newsletter2Go-->*Email: <<create>>
-Email ->User: confirm()
-
-opt Confirm Subscription
-User->Email: confirm(emailAddress)
-activate User #FF5B07
-abox over Sonic #red: Assume Activation?! 
-Email->Newsletter2Go: activate(emailAddress)
-destroy Email
-activate Newsletter2Go #FF5B07
-Newsletter2Go -->*Newsletter: <<create>>
-Newsletter->User:newsletter()
-note over User,Sonic: UX: Newsletter Unsubscribe
-end
+  User->Client: input(emailPreferences)
+  Client ->Sonic: patchUserMe(newsletterPreference)
+  activate Sonic #orange
+  Client->Newsletter2Go: subscribe(emailAddress)
+  activate Newsletter2Go #FF882A
+  Newsletter2Go-->*Email: <<create>>
+  Email ->User: confirm()
+  opt Confirm Subscription
+    User->Email: confirm(emailAddress)
+    activate User #FF5B07
+    abox over Sonic #red: Assume Activation?! 
+    Email->Newsletter2Go: activate(emailAddress)
+    destroy Email
+    activate Newsletter2Go #FF5B07
+    Newsletter2Go -->*Newsletter: <<create>>
+    Newsletter->User:newsletter()
+    note over User,Sonic: UX: Newsletter Unsubscribe
+  end
 end

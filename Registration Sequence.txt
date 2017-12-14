@@ -30,8 +30,8 @@ end
 opt 
 User->Client: input(gender)
 User->Client: input(emailPreferences)
-note over User, Client: UX: Add Favorites //Anon user has history!!//
-note over User, Client: UX: Facebook Login
+note over User, Client: UX: Add to Favorites //Anon user has history!!//
+note over User, Client: UX: Login with Facebook
 end
 User->Client: input(password)
 opt Toggle Password Visibility

@@ -1,0 +1,4 @@
+actor User
+boundary Client
+control Sonic
+entity Facebook

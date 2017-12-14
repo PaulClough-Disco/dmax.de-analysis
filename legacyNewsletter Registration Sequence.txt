@@ -1,0 +1,27 @@
+/title Newsletter2Go Interaction
+
+actor "LegacyRegistration" as LR #FF5B07
+boundary Client #f4c842
+control Newsletter2Go #FF882A
+
+LR->Client: subscribe(emailAddress)
+Client->Newsletter2Go: subscribe(emailAddress)
+activate Newsletter2Go #FF882A
+Newsletter2Go -> *Email: <<create>>
+Email ->LR: confirm(subscription)
+opt Confirm Subscription
+LR->Email: confirm()
+Email->Newsletter2Go: activate(emailAddress)
+destroy Email
+activate LR #FF5B07
+activate Newsletter2Go #FF5B07
+Newsletter2Go ->LR: newsletter()
+LR->Newsletter2Go: unsubscribe(emailAddress)
+deactivate LR
+deactivate Newsletter2Go
+deactivate Newsletter2Go
+activate Newsletter2Go #red
+note over Newsletter2Go: **GDPR? 
+space 1
+deactivate Newsletter2Go
+end

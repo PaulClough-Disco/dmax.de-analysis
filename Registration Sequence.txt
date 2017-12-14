@@ -1,0 +1,118 @@
+actor User
+boundary Client
+entity Sonic
+
+title Registration Sequence
+
+opt
+User->Client: click(registration)
+end
+Client->User: display(registrationForm)
+opt
+User->Client:click(cancel)
+note over Client: UX:Back to Origin Page
+end
+opt
+User->Client: input(firstName)
+User->Client: input(lastName)
+end
+User->Client: input(emailAddress)
+Client->Client:validateEmailFormat(emailAddress)
+alt Invalid format Email address
+Client->User: display(error)
+end
+User->Client: input(yearOfBirth)
+note over User: //does not set Profile>Age//
+Client->Client: validateYearOfBirth(yearOfBirth)
+alt Mandatory Year of Birth
+Client->User: display(error)
+end
+opt 
+User->Client: input(gender)
+User->Client: input(emailPreferences)
+note over User, Client: UX: Add Favorites //Anon user has history!!//
+note over User, Client: UX: Facebook Login
+end
+User->Client: input(password)
+opt Toggle Password Visibility
+User->Client: click(displayPassword)
+Client ->User: display(password)
+end
+User->Client: input(repeatPassword)
+
+loop Password Process
+Client->Client:existPassword(boolean)
+alt Password Exist=false
+Client->User: display(error)
+else Password Exists=True
+Client->Client: checkLength(password)
+alt Min. Password Length <8 char
+Client->User: display(error)
+end
+Client ->Client: match(password,repeatPassword)
+alt Passwords Not Match
+Client->User: display(error)
+else Passwords Match
+  User->Client: input(acceptTsCs)
+  Client->Client: existAcceptTsCs(boolean)
+  alt AcceptTsCs Exist=false
+  Client ->User: display(error)
+  else AcceptTsCs=true
+  Client->User: display(submit)
+   User->Client: click(submit)
+  end
+  Client->Sonic: registerAndLogin(username,password) 
+  alt Email exists
+  Sonic->Client:error(invalid.payload)
+  Client ->User: display(error)
+  note over User, Client: UX:Login
+  else Password complexity fail
+  Sonic ->Client: error(invalid.password)
+  Client ->User: display(error)
+  Client ->Client: clearPassword(password,repeatPassword)
+  end
+end
+end
+
+ 
+end
+Sonic ->Client: return(token)
+Client ->Client: store(token)
+Client ->Sonic: customAttributes(acceptTsCs:datetime)
+Client ->Sonic: patchProfiles(birthYear,gender)
+opt Update Profile & Favorites
+Client ->Sonic: patchUserMe(newsletterPreference)
+end 
+Client ->User: display(registrationSuccess)
+Client ->Sonic: sendValidationEmail(token)
+note over Sonic: //New Requirement: Support email \nverification w/o initiate call//
+Sonic-->*Email: <<create>>
+Email->User: mailTo(emailAddress)
+==UX: Anonymous User==
+User ->Email: click(validateEmailVerificationString)
+Email ->Client: url(validateEmailVerificationString)
+Client->Sonic: validateEmailVerificationString(emailVerificationString)
+destroy Email
+Client ->Client: existLogged_in(boolean)
+ alt Logged_in=False 
+note over User, Client: UX:Anonymous User
+ alt Invalid/Expired String
+ Sonic ->Client: error(invalid.parameter)
+ Client->User:display(error)
+ User->Client: input(emailAddress)
+ else
+ Sonic ->Client: return(success)
+ Client ->User: display(success)
+ end
+note over User,Client: UX: Login
+ else Logged_in=True UX:Session
+  alt Invalid/Expired String
+ Sonic ->Client: error(invalid.parameter)
+ Client->User:display(error)
+ Client ->Sonic: sendValidationEmail(token)
+  else
+ Sonic ->Client: return(success)
+  Client ->User: display(success)
+ end
+ end 
+note over User,Client: UX:Logout \nUX:Connect to Facebook\nUX:Update Profile\nUX:Back to Origin Page

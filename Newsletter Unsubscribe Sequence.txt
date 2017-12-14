@@ -1,4 +1,4 @@
-title Unsubscribe
+title Newsletter Unsubscribe
 actor User #FF5B07
 participant Newsletter
 boundary Client #f4c842
@@ -7,30 +7,29 @@ control Sonic #orange
 
 activate User #FF5B07
 activate Newsletter2Go #FF882A
-
 activate Sonic #orange
 
 opt UX: Newsletter Unsubscribe
-User->Newsletter:unsubscribeLink()
-Newsletter ->Client: unsubscribe(emailAddress)
-destroy Newsletter
-note over Client,Sonic: UX:Login
-note over Client,Sonic: UX: Manage User Profile
-opt UX: Manage Email Preferences
-Client ->Newsletter2Go: getRecipients(emailAddress)
-alt Not Found
-else User Found
-Newsletter2Go ->Client: recipients(attributes)
-Client->User: display(newsletterPreferences)
-end
-User->Client: input(emailPreferences)
-deactivate User
-Client ->Sonic: patchUserMe(newsletterPreference)
-deactivate Sonic
-Client->Newsletter2Go: patchRecipients(is_unsubscribed)
-deactivate Newsletter2Go
-activate Newsletter2Go #red
-note over Newsletter2Go: **GDPR? 
-deactivate Newsletter2Go
-end
+  User->Newsletter:unsubscribeLink()
+  Newsletter ->Client: unsubscribe(emailAddress)
+  destroy Newsletter
+  note over Client,Sonic: UX:Login
+  note over Client,Sonic: UX: Manage User Profile
+  opt UX: Manage Email Preferences
+    Client ->Newsletter2Go: getRecipients(emailAddress)
+    alt Not Found
+    else User Found
+      Newsletter2Go ->Client: recipients(attributes)
+    Client->User: display(newsletterPreferences)
+    end
+  User->Client: input(emailPreferences)
+  deactivate User
+  Client ->Sonic: patchUserMe(newsletterPreference)
+  deactivate Sonic
+  Client->Newsletter2Go: patchRecipients(is_unsubscribed)
+  deactivate Newsletter2Go
+  activate Newsletter2Go #red
+  note over Newsletter2Go: **GDPR? 
+  deactivate Newsletter2Go
+  end
 end

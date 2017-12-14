@@ -1,9 +1,7 @@
+title Login Sequence
 actor User
 boundary Client
 entity Sonic
-
-title Login Sequence
-
 opt
 User->Client: click(login)
 end

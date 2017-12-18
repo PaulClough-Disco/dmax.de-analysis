@@ -3,7 +3,7 @@ boundary Client
 entity Sonic
 
 title Registration Sequence
-
+note over User,Client: UX: :Login with Facebook
 opt
 User->Client: click(registration)
 end
@@ -30,8 +30,7 @@ end
 opt 
 User->Client: input(gender)
 User->Client: input(emailPreferences)
-note over User, Client: UX: Add to Favorites //Anon user has history!!//
-note over User, Client: UX: Login with Facebook
+note over User, Client: UX: Add Favorites //Anon user has history!!//
 end
 User->Client: input(password)
 opt Toggle Password Visibility

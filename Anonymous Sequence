@@ -1,20 +1,21 @@
 actor User
 boundary Client
 entity Sonic
+participant "Facebook" as FbSDK
 
 title Anonymous Sequence
 User->Client: open()
 Client ->Client: existLogged_in(boolean)
 alt Logged_in=True 
-Client -> FbSdk:getLoginStatus()
+Client -> FbSDK:getLoginStatus()
 alt connected
-FbSdk ->Client: authResponse(accessToken)
+FbSDK ->Client: authResponse(accessToken)
 Client->Sonic: login(accessToken)
 else not_authorized
-FbSdk ->Client: authReponse(not_authorized)
+FbSDK ->Client: authReponse(not_authorized)
 note over User,Client: UX:Connect to Facebook
 else unknown
-FbSdk ->Client: authReponse(unknown)
+FbSDK->Client: authReponse(unknown)
 note over User,Client: UX:Connect to Facebook
 end
 else Logged_in=False 

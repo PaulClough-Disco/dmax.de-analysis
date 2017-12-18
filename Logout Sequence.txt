@@ -1,9 +1,9 @@
 title Logout Sequence
 actor User
 boundary Client
-Client ->Client: existLogged_in(boolean)
+==Anonymous==
  alt Logged_in=False
-  note over User, Client: UX:Anonymous User \nUX:Login
+  note over User, Client: UX:Login
  else Logged_in=True
   Client ->Client: display(logout)
   opt 

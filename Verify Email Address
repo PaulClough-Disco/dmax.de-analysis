@@ -1,0 +1,34 @@
+actor User
+boundary Client
+entity Sonic
+
+title Verifiy Email Address Sequence
+==UX: Anonymous User==
+User ->Email: click(validateEmailVerificationString)
+Email ->Client: url(validateEmailVerificationString)
+Client->Sonic: validateEmailVerificationString(emailVerificationString)
+destroy Email
+Client ->Client: existLogged_in(boolean)
+ alt Logged_in=False 
+note over User, Client: UX:Anonymous User
+ alt Invalid/Expired String
+ Sonic ->Client: error(invalid.parameter)
+ Client->User:display(error)
+ User->Client: input(emailAddress)
+ else Valid String
+ Sonic ->Client: return(success)
+ Client ->User: display(success)
+ note over User,Client: UX: Connect to Facebook
+ end
+note over User,Client: UX: Login
+ else Logged_in=True UX:Session
+  alt Invalid/Expired String
+ Sonic ->Client: error(invalid.parameter)
+ Client->User:display(error)
+ Client ->Sonic: sendValidationEmail(token)
+  else Valid String
+ Sonic ->Client: return(success)
+  Client ->User: display(success)
+ end
+ end 
+note over User,Client: UX:Logout \nUX:Update Profile\nUX:Back to Origin Page

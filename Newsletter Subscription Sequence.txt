@@ -5,7 +5,7 @@ control Newsletter2Go #FF882A
 control Sonic #orange
 
 ==Post Sonic== #orange
-note over User, Client: UX: Registration\nLogin with Facebook
+note over User, Client: UX:Registration\nUX:Login with Facebook
 opt UX: Newsletter Subscription
   User->Client: input(emailPreferences)
   Client ->Sonic: patchUserMe(newsletterPreference)

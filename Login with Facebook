@@ -1,0 +1,45 @@
+actor User
+boundary Client
+entity Sonic
+participant "Facebook\nSDK" as FbSDK
+
+title Login with Facebook Sequence
+==Anonymous==
+Client->User: display(loginWithFb)
+note over User,Client: UX:Registration\nUX:Password Reset
+User->Client: click(loginWithFb)
+Client ->User: display(acceptTsCs)
+
+opt Cancel
+User->Client:click(cancel)
+note over Client: UX:Back to Origin Page
+end
+  User->Client: input(acceptTsCs)
+  Client->FbSDK: [scope{email}]login()
+  Client->User: display(facebookLoginDialog)
+  alt connected
+  FbSDK ->Client: authResponse(accessToken,email)
+  Client ->Client: store(accessToken)
+  Client->Sonic: [implicitRegistration=true] login(accessToken)
+  alt invalid.token
+  Sonic ->Client: error(invalidToken)
+  Client->User: display(error)
+   note over User,Client:  UX:Registration
+  else unauthorized
+    Sonic ->Client: error(unauthorized	)
+  Client->User: display(error)
+   note over User,Client:  UX:Registration
+  else success
+    Client ->Sonic: customAttributes(acceptTsCs:datetime)
+  Client ->User: display(newsletterPreference)
+  note over User: //What about Age & Gender?
+  note over User,Client: UX:Newsletter Subscription
+
+  end
+  else not connected
+  FbSDK->Client: authResponse(unknown)
+  note over User,Client: UX:Back to Origin Page
+  end
+  note over User, Client: UX:Update User Profile
+
+

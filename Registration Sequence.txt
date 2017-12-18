@@ -3,7 +3,7 @@ boundary Client
 entity Sonic
 
 title Registration Sequence
-note over User,Client: UX: :Login with Facebook
+note over User,Client: UX:Login with Facebook
 User->Client: click(registration)
 Client->User: display(registrationForm)
 opt

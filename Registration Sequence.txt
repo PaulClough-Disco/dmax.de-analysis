@@ -4,9 +4,7 @@ entity Sonic
 
 title Registration Sequence
 note over User,Client: UX: :Login with Facebook
-opt
 User->Client: click(registration)
-end
 Client->User: display(registrationForm)
 opt
 User->Client:click(cancel)

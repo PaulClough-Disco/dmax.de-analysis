@@ -31,4 +31,4 @@ note over User,Client: UX: Login
   Client ->User: display(success)
  end
  end 
-note over User,Client: UX:Logout \nUX:Update Profile\nUX:Back to Origin Page
+note over User,Client: UX:Logout \nUX:Update Profile\nUX:Back to Origin Page\nAdd to Favourites

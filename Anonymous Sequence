@@ -9,6 +9,7 @@ alt Logged_in=True
 Client -> FbSdk:getLoginStatus()
 alt connected
 FbSdk ->Client: authResponse(accessToken)
+Client->Sonic: login(accessToken)
 else not_authorized
 FbSdk ->Client: authReponse(not_authorized)
 note over User,Client: UX:Connect to Facebook

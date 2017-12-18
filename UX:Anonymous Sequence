@@ -1,0 +1,21 @@
+actor User
+boundary Client
+entity Sonic
+
+title Anonymous Sequence
+User->Client: open()
+Client ->Client: existLogged_in(boolean)
+alt Logged_in=True 
+Client -> FbSdk:getLoginStatus()
+alt connected
+FbSdk ->Client: authResponse(accessToken)
+else not_authorized
+FbSdk ->Client: authReponse(not_authorized)
+note over User,Client: UX:Connect to Facebook
+else unknown
+FbSdk ->Client: authReponse(unknown)
+note over User,Client: UX:Connect to Facebook
+end
+else Logged_in=False 
+note over User,Client: UX:Login\nUX:Registration\nUX:Login with Facebook\nUX:Password Reset
+end //

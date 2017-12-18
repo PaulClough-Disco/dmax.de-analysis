@@ -2,14 +2,12 @@ actor User
 boundary Client
 entity Sonic
 participant "Facebook\nSDK" as FbSDK
-
 title Login with Facebook Sequence
 ==Anonymous==
 Client->User: display(loginWithFb)
 note over User,Client: UX:Registration\nUX:Password Reset
 User->Client: click(loginWithFb)
 Client ->User: display(acceptTsCs)
-
 opt Cancel
 User->Client:click(cancel)
 note over Client: UX:Back to Origin Page
@@ -34,12 +32,9 @@ end
   Client ->User: display(newsletterPreference)
   note over User: //What about Age & Gender?
   note over User,Client: UX:Newsletter Subscription
-
   end
   else not connected
   FbSDK->Client: authResponse(unknown)
   note over User,Client: UX:Back to Origin Page
   end
   note over User, Client: UX:Update User Profile
-
-

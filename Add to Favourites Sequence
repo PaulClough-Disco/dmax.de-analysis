@@ -1,0 +1,18 @@
+actor User
+boundary Client
+entity Sonic
+title Add Favourites Sequence
+note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
+Client->User: display(addToFavorites)
+opt Add to Favorites
+User->Client: [id]click(addToFavorites)
+Client ->Sonic: addFavorite(id)
+alt Missing Resource
+Sonic ->Client: error(missing.resource)
+Client->User: display(error)
+else Success
+Sonic ->Client: success()
+Client->User: display(success)
+end
+note over User,Client: UX: Edit Favorites
+end

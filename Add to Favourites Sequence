@@ -4,6 +4,7 @@ entity Sonic
 title Add Favourites Sequence
 note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
 ==LoggedIn==
+Client->Client: attribute(isFavorite==true)
 Client->User: display(addToFavorites)
 opt Add to Favorites
 User->Client: [id]click(addToFavorites)

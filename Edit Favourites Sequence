@@ -1,0 +1,36 @@
+actor User
+boundary Client
+entity Sonic
+title Edit Favourites Sequence
+note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
+==LoggedIn==
+opt
+User->Client: click(myAccount)
+end
+Client->Sonic: getFavorites()
+Sonic ->Client:  userFavorites()
+Client->Client: checkFavoritesEmpty()
+alt No Favorites
+Client->User: display(noFavorites)
+else Aggregated Favorites
+Client ->User:  displayFavorites()
+opt Remove Favorite
+User->Client: click(removeFavorite)
+Client->Sonic: deleteFavorite(id)
+alt Missing Resource
+Sonic ->Client: error(missing.resource)
+Client->User: display(error)
+else Success
+Sonic ->Client: success()
+Client->User: display(success)
+end
+end
+Client ->User:  display(RemoveAllFavorites)
+opt Delete All Favorites
+User->Client:click(removalAll)
+Client->User: confirm()
+User->Client: click(confirm)
+Client ->Sonic: deleteFavorites()
+Sonic ->Client: success()
+Client->User: display(noFavorites)
+end

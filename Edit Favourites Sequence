@@ -27,7 +27,7 @@ end
 end
 Client ->User:  display(RemoveAllFavorites)
 opt Delete All Favorites
-User->Client:click(removalAll)
+User->Client:click(removeAll)
 Client->User: confirm()
 User->Client: click(confirm)
 Client ->Sonic: deleteFavorites()

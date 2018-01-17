@@ -32,10 +32,16 @@ Client-> User: display(submit)
 User->Client: click(submit)
 Client-> Sonic: login(credentials)
 end
+alt No Account Matching Username
+Sonic->Client: error(unauthorized)
+Client->User:display(error)
+note over User,Client: **UX:Register**
+else
 alt Incorrect password for username
 Sonic->Client: error(unauthorized)
 Client->User:display(error)
-note over User,Client: **UX:Password Reset**
+note over User,Client: UX:Password Reset
+end
 end
 Sonic->Client: return(token)
 Client->Client: store(token)

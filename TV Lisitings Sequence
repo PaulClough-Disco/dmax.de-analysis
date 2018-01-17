@@ -1,1 +1,28 @@
-
+actor User
+boundary Client
+entity Sonic
+title TV Listings Sequence
+note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
+opt
+User->Client: click(tvlistings)
+end
+Client->Sonic: get(tvlistings)\n[startDate=<today>-7,endDate=<today>+7]
+Sonic ->Client: tvlistings()
+Client ->Client: checkArray()
+alt Array Empty
+Client ->Client: checkCache()
+alt Cache Includes <Today>
+Client->User: display(cachedData)
+else No Data
+Client->User: display(error)
+end
+else Array Not Empty
+Client ->Client: select(uniqueShowId)
+Client->Client: countResult()
+loop Batch 100 showId 
+Client ->Sonic: get(showImages)
+Sonic ->Client: showImages()
+end
+Client->Client: onNowProgress()
+Client ->User: display(tvListings)
+end

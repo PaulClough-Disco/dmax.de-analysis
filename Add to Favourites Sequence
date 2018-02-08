@@ -1,7 +1,7 @@
 actor User
 boundary Client
 entity Sonic
-title Add Favourites Sequence
+title Add Favourite Sequence
 note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
 ==LoggedIn==
 Client->User:display(show)

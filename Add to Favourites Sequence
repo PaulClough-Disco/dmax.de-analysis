@@ -5,7 +5,7 @@ title Add Favourites Sequence
 note over User,Client: UX: Anonymous User\nUX: Registration\nUX: Login\nUX: Login with Facebook
 ==LoggedIn==
 Client->User:display(show)
-Client->Client: attribute(isFavorite==true)
+Client->Client: attribute(isFavorite==false)
 alt already favorited
 	Client->User:display(favorited)
 	note over User,Client: UX: Remove Favorites
